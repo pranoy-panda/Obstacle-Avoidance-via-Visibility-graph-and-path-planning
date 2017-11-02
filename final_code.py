@@ -190,6 +190,8 @@ def part1(image):
 	'''
 	 yellow object  ---> objects to be visited
 	''' 
+	list_of_squares = []
+	list_of_triangles = []
 	lower_yellow=np.array(list_of_min_vals[2])
 	upper_yellow=np.array(list_of_max_vals[2])
 
@@ -199,8 +201,16 @@ def part1(image):
 	im2,contours_yel,hierarchy = cv2.findContours(mask.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 	# appending the nodes 
 	for i in xrange(len(contours_yel)):
+		M = cv2.moments(contours_yel[i])
+		cX = int((M['m10'] / M['m00']))
+		cY = int((M['m01'] / M['m00']))
+		shape = find_shape(contours_yel[i])
+		if shape == '4-sided':
+			list_of_squares.append((cX,cY))
+		else:
+			list_of_triangles.append((cX,cY))	
 		x,y,w,h = cv2.boundingRect(contours_yel[i])
-		nodes.append((x+w/2,y+h/2))
+		nodes.append((cX,cY))
 	#########################################
 
 	'''
@@ -229,6 +239,12 @@ def part1(image):
 		graph[neighbour[0]] = neighbour[1:]
 		graph[neighbour[0]].extend(temp) 
 	
+	'''
+	the below written code finds a path between the start and end node via all other objects using nearest neighbour
+	paradigm
+	'''
+	flip_flag = 1 # for alternate picks, if flag = 0, we need to pick square else we need to pick triangle
+	alternate_flag = 0
 	visited_list = []
 	right_path = []
 	final_path = []
@@ -237,33 +253,78 @@ def part1(image):
 	end_node = nodes[-1]
 	print end_node
 	count = 9 # number of nodes I want to visit before visiting the end node
-	for i in xrange(10):
-		if count == 0:
-			print 'hey'
-			#destination = end_node
-			path,total_cost = dijstra_short_path(start_node,end_node,graph)
-			path.reverse()
-			final_path.extend(path)
-			break
-		min_dist = 100000
-		for node_2 in nodes[1:]:
-			if node_2 in obstacles: continue # we dont have to visit the obstacles 
-			if node_2 in visited_list: continue # donot visit already visited nodes
-			if node_2 == end_node: continue
-			path,total_cost = dijstra_short_path(start_node,node_2,graph)
-			path.reverse()
-			if min_dist>total_cost:
-				min_dist = total_cost
-				right_path = path
-		count-=1				
-		final_path.extend(right_path[:-1])
-		start_node = right_path[-1]
-		visited_list.append(start_node)	
-		temp = [(),inf]
-		graph={}
-		for neighbour in list_of_neighbours:
-			graph[neighbour[0]] = neighbour[1:]
-			graph[neighbour[0]].extend(temp)		
+	if alternate_flag==0: # no need to pick alternate shape
+		for i in xrange(10):
+			if count == 0:
+				print 'hey'
+				#destination = end_node
+				path,total_cost = dijstra_short_path(start_node,end_node,graph)
+				path.reverse()
+				final_path.extend(path)
+				break
+			min_dist = 100000
+			for node_2 in nodes[1:]:
+				if node_2 in obstacles: continue # we dont have to visit the obstacles 
+				if node_2 in visited_list: continue # donot visit already visited nodes
+				if node_2 == end_node: continue
+				path,total_cost = dijstra_short_path(start_node,node_2,graph)
+				path.reverse()
+				if min_dist>total_cost:
+					min_dist = total_cost
+					right_path = path
+			count-=1				
+			final_path.extend(right_path[:-1])
+			start_node = right_path[-1]
+			visited_list.append(start_node)	
+			# again rebuilding the graph because it gets modified while doing path planning(dont know why yet)
+			temp = [(),inf]
+			graph={}
+			for neighbour in list_of_neighbours:
+				graph[neighbour[0]] = neighbour[1:]
+				graph[neighbour[0]].extend(temp)		
+	print list_of_triangles == list_of_squares
+	if alternate_flag == 1: # we need to visit alternate shapes while traversing from start to end node
+		for i in xrange(10):
+			if count == 0:
+				#print 'hey'
+				#destination = end_node
+				path,total_cost = dijstra_short_path(start_node,end_node,graph)
+				path.reverse()
+				final_path.extend(path)
+				break
+			min_dist = 100000
+			for node_2 in nodes[1:]:
+				if node_2 in obstacles: continue # we dont have to visit the obstacles 
+				if node_2 in visited_list: continue # donot visit already visited nodes
+				if node_2 == end_node: continue		
+				if flip_flag == 0 and (node_2 in list_of_triangles):
+					continue
+				if flip_flag == 1 and (node_2 in list_of_squares):
+					continue
+				path,total_cost = dijstra_short_path(start_node,node_2,graph)
+				path.reverse()
+				if min_dist>total_cost:
+					min_dist = total_cost
+					right_path = path
+					destination_node = node_2
+
+			#if count ==9: # as the closest node to the start can be any node hence for first iteration we dont see its shape
+				#if destination_node in list_of_squares: flip_flag = 0	
+				#if destination_node in list_of_triangles: flip_flag = 1	
+			count-=1				
+			final_path.extend(right_path[:-1])
+			start_node = right_path[-1]
+			visited_list.append(start_node)	
+			if (destination_node in list_of_squares) or (destination_node in list_of_triangles):
+				flip_flag = abs(flip_flag-1) # update the flag to pick alternate object in next iteration
+				print flip_flag
+			# rebuilding the graph as the graph gets changed
+			temp = [(),inf]
+			graph={}
+			for neighbour in list_of_neighbours:
+				graph[neighbour[0]] = neighbour[1:]
+				graph[neighbour[0]].extend(temp)		
+
 
 	'''
 	the following code draws the visibility graph on the image(visualization)
@@ -441,10 +502,10 @@ def main(final_path):
 	cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-	image = cv2.imread('dummy_image.png')
+	image = cv2.imread('dummy_image2.jpg')
 	image = cv2.resize(image,(649, 647))
 	print 'crop out the start marker, white obstacle, yellow objects and end marker respectively'
 	final_path = part1(image)
-	print 'crop out the head marker and tail marker of the bot respectively'
+	#print 'crop out the head marker and tail marker of the bot respectively'
 	#main(final_path)	
-	print 'work done'	
+	#print 'work done'	
