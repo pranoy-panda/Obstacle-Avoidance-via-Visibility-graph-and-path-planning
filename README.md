@@ -1,8 +1,6 @@
 # Obstacle Avoidance via Visibility graph and path planning
-(Note: Yellow blocks are objects to be visited
-       White blocks are the obstacles
-       Red block is the start point
-       Green block is the end node)
+# (Note: Yellow blocks are objects to be visited, White blocks are the obstacles, Red block is the start point, Green block is the end node)
+       
 [image1]: ./input.JPG
 [image2]: ./result.png 
 
