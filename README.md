@@ -1,10 +1,10 @@
-#Obstacle Avoidance via Visibility graph and path planning
+# Obstacle Avoidance via Visibility graph and path planning
 
 [image1]: ./input.JPG
-[image2]: ./output.png 
+[image2]: ./result.png 
 
-#Input image
+# Input image
 ![alt text][image1]
 
-#Result
+# Result
 ![alt text][image2]
