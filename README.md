@@ -10,7 +10,7 @@ between them in the graph.
 [image1]: ./input.JPG 
 [image2]: ./result.png 
 
-![alt-text-1](image1.png "title-1") ![alt-text-2](image2.png "title-2")
+![alt-text-1](input.JPG "title-1") ![alt-text-2](result.png "title-2")
 
 # Input image
 ![alt text][image1]
