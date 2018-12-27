@@ -7,7 +7,7 @@ connection between them. That is, if the line segment connecting
 two locations does not pass through any obstacle, an edge is drawn
 between them in the graph.
 
-[image1]: ./input.JPG
+[image1]: ./input.JPG ./result.png 
 [image2]: ./result.png 
 
 # Input image
