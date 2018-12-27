@@ -10,7 +10,9 @@ between them in the graph.
 [image1]: ./input.JPG 
 [image2]: ./result.png 
 
-![alt-text-1](input.JPG "title-1") ![alt-text-2](result.png "title-2")
+| First Header  | Second Header |
+| ------------- | ------------- |
+| ![](./input.JPG )  | ![](./result.png )   |
 
 # Input image
 ![alt text][image1]
