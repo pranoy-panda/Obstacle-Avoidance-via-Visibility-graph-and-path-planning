@@ -1,4 +1,4 @@
-## Obstacle Avoidance via Visibility graph and path planning
+# Obstacle Avoidance via Visibility graph and path planning
 ### (Note: Yellow blocks are objects to be visited, White blocks are the obstacles, Red block is the start node, Green block is the end node)
 Visibility-graph is a graph of inter visible locations, typically for a set of
 points and obstacles in the Euclidean plane. Each node in the graph
