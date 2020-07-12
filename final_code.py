@@ -304,17 +304,28 @@ def part1(image,list_of_min_vals,list_of_max_vals,alternate_flag = 0):
 	return final_path,list_of_squares,list_of_triangles
 if __name__ == '__main__':
 	global image
-	image = cv2.imread('Capture.JPG')
+	image = cv2.imread('input.JPG')
 	image = cv2.resize(image,(640, 480))
-	choice = raw_input("To threshold enter Y, to use previous values enter N")
+	choice = raw_input("To threshold enter Y, to use previous values enter N: ")
 	if choice=='Y':
-		print 'crop out the start marker, white obstacle, yellow objects and end marker respectively'
+		print '------------------- Instructions ---------------------------'
+		print '(to crop, first select the object by drawing a bounding box '
+		print " then press 'c' to store the cropped image, and press esc)  "
+		print '1. First crop out the start marker(whichever color it is)   '
+		print '2. Crop out the white colored obstacles                     '
+		print '3. Crop out the yello objects which need to be visited .... '
+		print '   before reaching the end marker. '
+		print '4. Crop out the end marker(whichever color it is)           '
+		print '5. Then use the trackbar window to fine tune the colors of  '
+		print '   the objects. After doing that, toggle the button on other'
+		print '   window to switch to the next object.  '
+		print '(Please have a look at the gif in the repository for a demo)'
 		list_of_max_vals,list_of_min_vals = colored_object_tracker(image)
 	elif choice =='N':
 		list_of_min_vals = [[161, 154, 255], [255, 255, 255], [126, 238, 255], [174, 255, 196]]
 		list_of_max_vals = [[83, 63, 196], [222, 224, 225], [45, 164, 203], [68, 179, 142]]
 	else:
 		print 'wrong choice of letters'
-	image = cv2.imread('Capture.JPG')
+	image = cv2.imread('input.JPG')
 	final_path,list_of_squares,list_of_triangles = part1(image,list_of_max_vals,list_of_min_vals,1)
 	print final_path

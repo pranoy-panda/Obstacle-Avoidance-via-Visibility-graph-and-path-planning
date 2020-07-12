@@ -12,6 +12,8 @@ refPt = []
 cropping = False
 inf = float("9e999")
  
+image = cv2.imread('input.JPG')
+
 def click_and_crop(event, x, y, flags, param):
 	# grab references to the global variables
 	global refPt, cropping
@@ -32,10 +34,9 @@ def click_and_crop(event, x, y, flags, param):
  
 		# drawing a rectangle around the region of interest
 		#cv2.rectangle(image, refPt[0], refPt[1], (0, 255, 0), 2)
-		cv2.imshow("image", image)
+		#cv2.imshow("image", image)
 
 def fun(image): 
-	print 'fun'
 	clone = image.copy()
 	#image2 = image
 	cv2.namedWindow("image")
@@ -74,6 +75,7 @@ def fun(image):
 			min_val_R = roi[:,:,2].min() # min val of red channel in roi
 			min_val_G = roi[:,:,1].min() # min val of green channel in roi
 			min_val_B = roi[:,:,0].min() # min val of blue channel in roi
+			cv2.rectangle(image, refPt[0], refPt[1], (0, 255, 0), 2)
 			cv2.imshow("roi", roi)
 			cv2.waitKey(0)
 		list_of_min_vals.append([min_val_B,min_val_G,min_val_R]) # [yellow,pink]	
@@ -96,7 +98,7 @@ def colored_object_tracker(image):
 		count-=1
 	'''	
 	#global image
-	#image = cv2.imread('Capture.JPG')
+	#image = cv2.imread('input.JPG')
 	list_of_max_vals,list_of_min_vals = fun(image)
 	cv2.namedWindow('image1')
 	cv2.namedWindow('image2')
@@ -111,8 +113,8 @@ def colored_object_tracker(image):
 	flag = 0
 	for i in xrange(len(list_of_max_vals)):
 		while True:
-			frame = cv2.imread('Capture.JPG')
-			cv2.imshow('image2',frame)
+			frame = cv2.imread('input.JPG')
+			cv2.imshow('image2',image)
 			#frame = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 
 			####################
@@ -160,6 +162,3 @@ def colored_object_tracker(image):
 		#cap.release()
 	cv2.destroyAllWindows()	 
 	return list_of_max_vals,list_of_min_vals           
-		
-if __name__ == '__main__':
-	main()
