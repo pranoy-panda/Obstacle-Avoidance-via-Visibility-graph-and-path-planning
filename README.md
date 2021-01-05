@@ -25,8 +25,6 @@ Below are the instructions to use the software.
 
 (Please have a look at below given demo)
 ![](./1.gif)
-
-\
 ![](./2.gif)
 
 
