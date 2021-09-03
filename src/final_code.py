@@ -304,7 +304,7 @@ def part1(image,list_of_min_vals,list_of_max_vals,alternate_flag = 0):
 	return final_path,list_of_squares,list_of_triangles
 if __name__ == '__main__':
 	global image
-	image = cv2.imread('input.JPG')
+	image = cv2.imread('../imgs/input.JPG')
 	image = cv2.resize(image,(640, 480))
 	choice = raw_input("To threshold enter Y, to use previous values enter N: ")
 	if choice=='Y':
@@ -326,6 +326,7 @@ if __name__ == '__main__':
 		list_of_max_vals = [[83, 63, 196], [222, 224, 225], [45, 164, 203], [68, 179, 142]]
 	else:
 		print 'wrong choice of letters'
-	image = cv2.imread('input.JPG')
+	image = cv2.imread('../imgs/input.JPG')
 	final_path,list_of_squares,list_of_triangles = part1(image,list_of_max_vals,list_of_min_vals,1)
+	print '---------------------Final Path--------------------------'
 	print final_path

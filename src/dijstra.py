@@ -50,9 +50,9 @@ def generate_edges(graph):
 			edges.append([node,neighbour,cost_of_edge])	
 	return edges		
 
-def main():
+def main(): # function to debug the dijkstra program
 	inf = float("9e999")
-	# here we are discussing undirected graphs
+	# here we are using undirected graphs
 
 	# here I have represented graph as a dictionary, where the keys are the nodes and their corresponding
 	# values are the neighbours of the key
