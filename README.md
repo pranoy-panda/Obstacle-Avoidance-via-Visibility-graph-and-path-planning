@@ -2,9 +2,10 @@
 
 | Input  | Result |
 | ------------- | ------------- |
-| ![](./input.JPG )  | ![](./result.png )   |
+| ![](./imgs/input.JPG )  | ![](./imgs/result.png )   |
 
-## Problem: Given the color specification of the start marker, end marker, other objects and obstacles, generate a path which connects the start and end marker while ensuring that all the other objects are visited and the obstacles are avoided.
+### Problem: 
+Given the color specification of the start marker, end marker, other objects and obstacles, generate a path which connects the start and end marker while ensuring that all the other objects are visited and the obstacles are avoided.
 (Note: Yellow blocks are objects to be visited, White blocks are the obstacles, Red block is the start node, Green block is the end node)
 
 ### My approach: 
@@ -27,4 +28,19 @@ Below are the instructions to use the software.
 ![](./1.gif)
 ![](./2.gif)
 
+## Requirements:
+1. Python 2.7+ 
+2. [NumPy](http://www.numpy.org/)
+3. [OpenCV](https://docs.opencv.org/4.5.2/index.html)
+
+Or you may run the following commands in shell to install the required packages:
+```shell
+git clone https://github.com/pranoy-panda/Obstacle-Avoidance-via-Visibility-graph-and-path-planning.git
+cd Obstacle-Avoidance-via-Visibility-graph-and-path-planning/
+sudo pip install -r requirements.txt
+```
+## To get results on the provided [Image](../imgs/input.JPG), execute the following inside the repository:
+```shell
+python src/final_code.py
+```
 
